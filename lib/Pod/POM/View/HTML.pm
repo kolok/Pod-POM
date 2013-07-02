@@ -80,6 +80,15 @@ sub view_pod {
         . "</body>\n</html>\n";
 }
 
+# Weborama Patch
+sub view_public {
+    my ($self, $public) = @_;
+    return "PUBLIC : \n\n"
+	. $public->content->present($self) . "\n\nPRIVATE\n";
+}
+# end
+
+
 
 sub view_head1 {
     my ($self, $head1) = @_;

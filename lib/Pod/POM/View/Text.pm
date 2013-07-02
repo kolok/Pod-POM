@@ -70,6 +70,13 @@ sub view {
     }
 }
 
+# Weborama patch
+sub view_public {
+    my ($self, $public) = @_;
+    return $public->content->present($self);
+}
+# end
+
 
 sub view_head1 {
     my ($self, $head1) = @_;

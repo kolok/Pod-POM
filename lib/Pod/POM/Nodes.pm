@@ -33,6 +33,16 @@ use base qw( Exporter );
 $VERSION = sprintf("%d.%02d", q$Revision: 1.3 $ =~ /(\d+)\.(\d+)/);
 $DEBUG   = 0 unless defined $DEBUG;
 
+#------------------------------------------------------------------------
+# Special Weborama Public / Private
+#------------------------------------------------------------------------
+package Pod::POM::Node::Public;
+use base qw( Pod::POM::Node );
+use vars qw( @ACCEPT $EXPECT $ERROR );
+
+@ACCEPT = qw( head1 head2 head3 head4 over begin for text verbatim code );
+$EXPECT  = 'private';
+
 
 #------------------------------------------------------------------------
 package Pod::POM::Node::Pod;

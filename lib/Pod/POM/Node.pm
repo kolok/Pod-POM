@@ -33,6 +33,7 @@ $VERSION = sprintf("%d.%02d", q$Revision: 1.5 $ =~ /(\d+)\.(\d+)/);
 $DEBUG   = 0 unless defined $DEBUG;
 $NODES   = {
     pod      => 'Pod::POM::Node::Pod',
+    public   => 'Pod::POM::Node::Public',
     head1    => 'Pod::POM::Node::Head1',
     head2    => 'Pod::POM::Node::Head2',
     head3    => 'Pod::POM::Node::Head3',

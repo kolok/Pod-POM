@@ -142,26 +142,64 @@ use vars qw( %ATTRIBS @ACCEPT $ERROR );
 %ATTRIBS =   ( title => undef );
 @ACCEPT  = qw( over begin for text verbatim code public private method call response );
 
+sub new {
+    my ($class, $pom, $title) = @_;
+    $title = $pom->parse_sequence($title)
+	|| return $class->error($pom->error())
+	    if length $title;
+    $class->SUPER::new($pom, $title);
+}
+
 #------------------------------------------------------------------------
 package Pod::POM::Node::Call;
 use base qw( Pod::POM::Node );
 use vars qw( @ACCEPT $ERROR );
 
-@ACCEPT  = qw( over begin for text verbatim code public private function method response );
+@ACCEPT  = qw( over begin for text verbatim code public private );
+
+=pod
+sub new {
+    my ($class, $pom, $title) = @_;
+    $title = $pom->parse_sequence($title)
+	|| return $class->error($pom->error())
+	    if length $title;
+    $class->SUPER::new($pom, $title);
+}
+=cut
 
 #------------------------------------------------------------------------
 package Pod::POM::Node::Response;
 use base qw( Pod::POM::Node );
 use vars qw( @ACCEPT $ERROR );
 
-@ACCEPT  = qw( over begin for text verbatim code public private function method call );
+@ACCEPT  = qw( over begin for text verbatim code public private );
+
+=pod
+sub new {
+    my ($class, $pom, $title) = @_;
+    $title = $pom->parse_sequence($title)
+	|| return $class->error($pom->error())
+	    if length $title;
+    $class->SUPER::new($pom, $title);
+}
+=cut
 
 #------------------------------------------------------------------------
 package Pod::POM::Node::Method;
 use base qw( Pod::POM::Node );
 use vars qw( @ACCEPT $ERROR );
 
-@ACCEPT  = qw( over begin for text verbatim code public private function call response );
+@ACCEPT  = qw( over begin for text verbatim code public private );
+
+=pod
+sub new {
+    my ($class, $pom, $title) = @_;
+    $title = $pom->parse_sequence($title)
+	|| return $class->error($pom->error())
+	    if length $title;
+    $class->SUPER::new($pom, $title);
+}
+=cut
 
 #------------------------------------------------------------------------
 # End of Weborama patch

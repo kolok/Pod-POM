@@ -33,11 +33,20 @@ $VERSION = sprintf("%d.%02d", q$Revision: 1.5 $ =~ /(\d+)\.(\d+)/);
 $DEBUG   = 0 unless defined $DEBUG;
 $NODES   = {
     pod      => 'Pod::POM::Node::Pod',
+
     public   => 'Pod::POM::Node::Public',
+    private  => 'Pod::POM::Node::Private',
+
     head1    => 'Pod::POM::Node::Head1',
     head2    => 'Pod::POM::Node::Head2',
     head3    => 'Pod::POM::Node::Head3',
     head4    => 'Pod::POM::Node::Head4',
+
+    function => 'Pod::POM::Node::Function',
+    method   => 'Pod::POM::Node::Method',
+    call     => 'Pod::POM::Node::Call',
+    response => 'Pod::POM::Node::Response',
+
     over     => 'Pod::POM::Node::Over',
     item     => 'Pod::POM::Node::Item',
     begin    => 'Pod::POM::Node::Begin',
@@ -80,7 +89,7 @@ sub new {
 	no strict qw( refs );
         $attribs = \%{"$class\::ATTRIBS"} || [ ];
 	$accept  = \@{"$class\::ACCEPT"}  || [ ];
-	unless (defined (%{"$class\::ACCEPT"})) {
+	unless (%{"$class\::ACCEPT"}) {
 	    %{"$class\::ACCEPT"} = ( 
 		map { ( $_ => $NODES->{ $_ } ) } @$accept,
 	    );

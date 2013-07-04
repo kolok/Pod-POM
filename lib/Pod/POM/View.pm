@@ -30,6 +30,8 @@ use vars qw( $VERSION $DEBUG $ERROR $AUTOLOAD $INSTANCE );
 $VERSION = sprintf("%d.%02d", q$Revision: 1.4 $ =~ /(\d+)\.(\d+)/);
 $DEBUG   = 0 unless defined $DEBUG;
 
+my $private_flag = 0;
+my $public_flag = 0;
 
 #------------------------------------------------------------------------
 # new($pom)
@@ -38,8 +40,33 @@ $DEBUG   = 0 unless defined $DEBUG;
 sub new {
     my $class = shift;
     my $args  = ref $_[0] eq 'HASH' ? shift : { @_ };
+    $private_flag = $args->{private};
+    $public_flag = $args->{public};
     bless { %$args }, $class;
 }
+
+# Weborama Patch public / private
+sub view_public {
+    my ($self, $public, @args) = @_;
+
+    if ($public_flag)
+    {
+        return $public->content->present($self);
+    }
+    return '';
+}
+# end
+
+# Weborama Patch public / private
+sub view_private {
+    my ($self, $private) = @_;
+    if ($private_flag)
+    {
+        return $private->content->present($self);
+    }
+    return '';
+}
+# end
 
 
 sub print {

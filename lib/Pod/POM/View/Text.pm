@@ -29,19 +29,23 @@ use base qw( Pod::POM::View );
 use vars qw( $VERSION $DEBUG $ERROR $AUTOLOAD $INDENT );
 use Text::Wrap;
 
+use Data::Printer;
+
 $VERSION = sprintf("%d.%02d", q$Revision: 1.3 $ =~ /(\d+)\.(\d+)/);
 $DEBUG   = 0 unless defined $DEBUG;
 $INDENT  = 0;
 
-
 sub new {
     my $class = shift;
-    my $args  = ref $_[0] eq 'HASH' ? shift : { @_ };
-    bless { 
-	INDENT => 0,
-	%$args,
-    }, $class;
+    my $self = $class->SUPER::new(@_)
+	|| return;
+
+    # initalise stack for maintaining info for nested lists
+    $self->{ INDENT } = 0;
+
+    return $self;
 }
+
 
 
 sub view {
@@ -69,14 +73,6 @@ sub view {
 	return '';
     }
 }
-
-# Weborama patch
-sub view_public {
-    my ($self, $public) = @_;
-    return $public->content->present($self);
-}
-# end
-
 
 sub view_head1 {
     my ($self, $head1) = @_;
@@ -140,6 +136,75 @@ sub view_head4 {
 
     return $output;
 }
+
+#-------------------------------------------------------------------------------
+# Weborama patch
+#-------------------------------------------------------------------------------
+sub view_function {
+    my ($self, $function) = @_;
+    my $indent = ref $self ? \$self->{ INDENT } : \$INDENT;
+    my $pad = ' ' x $$indent;
+    local $Text::Wrap::unexpand = 0;
+    my $title = wrap($pad, $pad, 
+		     $function->title);
+
+    $$indent += 6;
+    my $output = "function $title\n" . $function->content->present($self);
+    $$indent -= 6;
+
+    return $output;
+}
+
+
+sub view_method {
+    my ($self, $method) = @_;
+    my $indent = ref $self ? \$self->{ INDENT } : \$INDENT;
+    my $pad = ' ' x $$indent;
+    local $Text::Wrap::unexpand = 0;
+    my $title = wrap($pad, $pad, 
+		     "Method");
+
+    $$indent += 6;
+    my $output = "$title\n" . $method->content->present($self);
+    $$indent -= 6;
+
+    return $output;
+}
+
+
+sub view_call {
+    my ($self, $call) = @_;
+    my $indent = ref $self ? \$self->{ INDENT } : \$INDENT;
+    my $pad = ' ' x $$indent;
+    local $Text::Wrap::unexpand = 0;
+    my $title = wrap($pad, $pad, 
+		     "Call");
+
+    $$indent += 6;
+    my $output = "$title\n" . $call->content->present($self);
+    $$indent -= 6;
+
+    return $output;
+}
+
+
+sub view_response {
+    my ($self, $response) = @_;
+    my $indent = ref $self ? \$self->{ INDENT } : \$INDENT;
+    my $pad = ' ' x $$indent;
+    local $Text::Wrap::unexpand = 0;
+    my $title = wrap($pad, $pad, 
+		     "Response");
+
+    $$indent += 6;
+    my $output = "$title\n" . $response->content->present($self);
+    $$indent -= 6;
+
+    return $output;
+}
+#-------------------------------------------------------------------------------
+# End of Weborama patch
+#-------------------------------------------------------------------------------
 
 
 #------------------------------------------------------------------------

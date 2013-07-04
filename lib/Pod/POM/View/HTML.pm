@@ -80,16 +80,6 @@ sub view_pod {
         . "</body>\n</html>\n";
 }
 
-# Weborama Patch
-sub view_public {
-    my ($self, $public) = @_;
-    return "PUBLIC : \n\n"
-	. $public->content->present($self) . "\n\nPRIVATE\n";
-}
-# end
-
-
-
 sub view_head1 {
     my ($self, $head1) = @_;
     my $title = $head1->title->present($self);
@@ -120,6 +110,41 @@ sub view_head4 {
     return "<h4>$title</h4>\n"
 	. $head4->content->present($self);
 }
+
+
+#-------------------------------------------------------------------------------
+# Weborama patch
+#-------------------------------------------------------------------------------
+sub view_function {
+    my ($self, $function) = @_;
+    my $title = $function->title;
+    return "<b>Function : $title</b>\n"
+	. $function->content->present($self);
+}
+
+
+sub view_method {
+    my ($self, $method) = @_;
+    return "<b>Method : </b>\n"
+	. $method->content->present($self);
+}
+
+
+sub view_call {
+    my ($self, $call) = @_;
+    return "<b>Call : </b>\n"
+	. $call->content->present($self);
+}
+
+
+sub view_response {
+    my ($self, $response) = @_;
+    return "<b>Response : </b>\n"
+	. $response->content->present($self);
+}
+#-------------------------------------------------------------------------------
+# End of Weborama patch
+#-------------------------------------------------------------------------------
 
 
 sub view_over {

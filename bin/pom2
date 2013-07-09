@@ -68,9 +68,11 @@ if (!$view) {
 		       . join(', ', sort keys %$views));
 }
 
+$options{private} //= $ENV{PRIVATE};
+$options{public}  //= $ENV{PUBLIC};
 $options{private} = 0 if $options{public}  && !defined $options{private};
-$options{public} = 0  if $options{private} && !defined $options{public};
-$options{public} //= 1;
+$options{public}  = 0 if $options{private} && !defined $options{public};
+$options{public}  //= 1;
 $options{private} //= 1;
 
 $view = "Pod::POM::View::$view";

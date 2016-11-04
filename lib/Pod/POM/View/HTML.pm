@@ -236,6 +236,7 @@ sub view_begin {
 
 sub view_textblock {
     my ($self, $text) = @_;
+    $text =~ s/\n([A-Za-z])/<br> $1/g;
     return $HTML_PROTECT ? "$text\n" : "<p>$text</p>\n";
 }
 

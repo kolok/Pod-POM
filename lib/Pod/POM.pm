@@ -157,7 +157,7 @@ sub parse_file {
 
 sub parse_text {
     my ($self, $text, $name) = @_;
-    my ($para, $paralen, $gap, $type, $line, $inpod, $code, $result, $verbatim);
+    my ($para, $paralen, $gap, $type, $line, $inpod, $code, $result, $verbatim, $table);
     my $warn = $self->{ WARNINGS } = [ ];
 
     my @stack = ( );
@@ -212,7 +212,11 @@ sub parse_text {
         if ($verbatim) {
     	    while(@stack) {
                 $verbatim =~ s/\s+$//s;
-       	        $result = $stack[-1]->add($self, 'verbatim', $verbatim);
+                if ($verbatim =~ /^\s+\^/) {
+                    $result = $stack[-1]->add($self, 'table', $verbatim);
+                }else{
+                    $result = $stack[-1]->add($self, 'verbatim', $verbatim);
+                }
             
 	        if (! defined $result) {
                     $self->warning($stack[-1]->error(), $name, $$line);

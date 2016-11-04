@@ -54,6 +54,7 @@ $NODES   = {
     text     => 'Pod::POM::Node::Text',
     code     => 'Pod::POM::Node::Code',
     verbatim => 'Pod::POM::Node::Verbatim',
+    table    => 'Pod::POM::Node::Table',
 };
 $NAMES = {
     map { ( $NODES->{ $_ } => $_ ) } keys %$NODES,

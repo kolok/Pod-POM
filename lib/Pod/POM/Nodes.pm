@@ -40,7 +40,7 @@ package Pod::POM::Node::Public;
 use base qw( Pod::POM::Node );
 use vars qw( @ACCEPT $EXPECT $ERROR );
 
-@ACCEPT = qw( head1 head2 head3 head4 over begin for text verbatim code function method call response );
+@ACCEPT = qw( head1 head2 head3 head4 over begin for text verbatim code function method call response table );
 $EXPECT  = 'end_public';
 
 
@@ -51,7 +51,7 @@ package Pod::POM::Node::Private;
 use base qw( Pod::POM::Node );
 use vars qw( @ACCEPT $EXPECT $ERROR );
 
-@ACCEPT = qw( head1 head2 head3 head4 over begin for text verbatim code function method call response );
+@ACCEPT = qw( head1 head2 head3 head4 over begin for text verbatim code function method call response table );
 $EXPECT  = 'end_private';
 
 
@@ -60,7 +60,7 @@ package Pod::POM::Node::Pod;
 use base qw( Pod::POM::Node );
 use vars qw( @ACCEPT $ERROR );
 
-@ACCEPT = qw( head1 head2 head3 head4 over begin for text verbatim code public private function method call response );
+@ACCEPT = qw( head1 head2 head3 head4 over begin for text verbatim code public private function method call response table );
 
 
 #------------------------------------------------------------------------
@@ -69,7 +69,7 @@ use base qw( Pod::POM::Node );
 use vars qw( %ATTRIBS @ACCEPT $ERROR );
 
 %ATTRIBS =   ( title => undef );
-@ACCEPT  = qw( head2 head3 head4 over begin for text verbatim code public private function method call response );
+@ACCEPT  = qw( head2 head3 head4 over begin for text verbatim code public private function method call response table);
 
 sub new {
     my ($class, $pom, $title) = @_;
@@ -86,7 +86,7 @@ use base qw( Pod::POM::Node );
 use vars qw( %ATTRIBS @ACCEPT $ERROR );
 
 %ATTRIBS =   ( title => undef );
-@ACCEPT  = qw( head3 head4 over begin for text verbatim code public private function method call response );
+@ACCEPT  = qw( head3 head4 over begin for text verbatim code public private function method call response table);
 
 sub new {
     my ($class, $pom, $title) = @_;
@@ -103,7 +103,7 @@ use base qw( Pod::POM::Node );
 use vars qw( %ATTRIBS @ACCEPT $ERROR );
 
 %ATTRIBS =   ( title => undef );
-@ACCEPT  = qw( head4 over begin for text verbatim code public private function method call response );
+@ACCEPT  = qw( head4 over begin for text verbatim code public private function method call response table);
 
 sub new {
     my ($class, $pom, $title) = @_;
@@ -120,7 +120,7 @@ use base qw( Pod::POM::Node );
 use vars qw( %ATTRIBS @ACCEPT $ERROR );
 
 %ATTRIBS =   ( title => undef );
-@ACCEPT  = qw( over begin for text verbatim code public private function method call response );
+@ACCEPT  = qw( over begin for text verbatim code public private function method call response table );
 
 sub new {
     my ($class, $pom, $title) = @_;
@@ -140,7 +140,7 @@ use base qw( Pod::POM::Node );
 use vars qw( %ATTRIBS @ACCEPT $ERROR );
 
 %ATTRIBS =   ( title => undef );
-@ACCEPT  = qw( over begin for text verbatim code public private method call response );
+@ACCEPT  = qw( over begin for text verbatim code public private method call response table );
 
 sub new {
     my ($class, $pom, $title) = @_;
@@ -155,7 +155,7 @@ package Pod::POM::Node::Call;
 use base qw( Pod::POM::Node );
 use vars qw( @ACCEPT $ERROR );
 
-@ACCEPT  = qw( over begin for text verbatim code public private );
+@ACCEPT  = qw( over begin for text verbatim code public private table);
 
 =pod
 sub new {
@@ -172,7 +172,7 @@ package Pod::POM::Node::Response;
 use base qw( Pod::POM::Node );
 use vars qw( @ACCEPT $ERROR );
 
-@ACCEPT  = qw( over begin for text verbatim code public private );
+@ACCEPT  = qw( over begin for text verbatim code public private table );
 
 =pod
 sub new {
@@ -189,7 +189,7 @@ package Pod::POM::Node::Method;
 use base qw( Pod::POM::Node );
 use vars qw( @ACCEPT $ERROR );
 
-@ACCEPT  = qw( over begin for text verbatim code public private );
+@ACCEPT  = qw( over begin for text verbatim code public private table);
 
 =pod
 sub new {
@@ -212,7 +212,7 @@ use base qw( Pod::POM::Node );
 use vars qw( %ATTRIBS @ACCEPT $EXPECT $ERROR );
 
 %ATTRIBS =   ( indent => 4 );
-@ACCEPT  = qw( over item begin for text verbatim code public private  );
+@ACCEPT  = qw( over item begin for text verbatim code public private table );
 $EXPECT  = 'back';
 
 
@@ -222,7 +222,7 @@ use base qw( Pod::POM::Node );
 use vars qw( %ATTRIBS @ACCEPT $ERROR );
 
 %ATTRIBS =   ( title => '*' );
-@ACCEPT  = qw( over begin for text verbatim code public private  );
+@ACCEPT  = qw( over begin for text verbatim code public private table );
 
 sub new {
     my ($class, $pom, $title) = @_;
@@ -239,7 +239,7 @@ use base qw( Pod::POM::Node );
 use vars qw( %ATTRIBS @ACCEPT $EXPECT $ERROR );
 
 %ATTRIBS =   ( format => undef );
-@ACCEPT  = qw( text verbatim code public private  );
+@ACCEPT  = qw( text verbatim code public private table );
 $EXPECT  = 'end';
 
 
@@ -257,6 +257,27 @@ sub new {
     $class->SUPER::new($pom, split(/\s+/, $text, 2));
 }
 
+
+#------------------------------------------------------------------------
+package Pod::POM::Node::Table;
+use base qw( Pod::POM::Node );
+use vars qw( %ATTRIBS $ERROR );
+
+%ATTRIBS = ( text => '' );
+
+sub present {
+    my ($self, $view) = @_;
+    $view ||= $Pod::POM::DEFAULT_VIEW;
+    if ($view =~ 'Pod::POM::View::HTML')
+    {
+        $view->view_table($self->{ text });
+    }
+    else
+    {
+        #TODO: implement table on other format than HTML
+        $view->view_verbatim($self->{ text });
+    }
+}
 
 #------------------------------------------------------------------------
 package Pod::POM::Node::Verbatim;

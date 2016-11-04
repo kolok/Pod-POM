@@ -250,6 +250,40 @@ sub view_verbatim {
     return "<pre>$text</pre>\n\n";
 }
 
+sub view_table {
+    my ($self, $text) = @_;
+    for ($text) {
+	s/&/&amp;/g;
+	s/</&lt;/g;
+	s/>/&gt;/g;
+    }
+    my $new = "";
+    my @lines = split('\n', $text);
+    foreach my $line (split('\n', $text))
+    {
+        my $new_line = '';
+        if ($line =~ /\^\s/)
+        {
+            my @cells = split(/\^/, $line);
+            foreach my $cell (@cells)
+            {
+                $new_line .= "<th>$cell</th>";
+            }
+        }
+        if ($line =~ /\|\s/)
+        {
+            my @cells = split(/\|/, $line);
+            foreach my $cell (@cells)
+            {
+                $new_line .= "<td>$cell</td>";
+            }
+        }
+        $new .= "<tr>$new_line</tr>\n";
+    }
+
+    return "<table>$new</table>\n\n";
+}
+
 
 sub view_seq_bold {
     my ($self, $text) = @_;

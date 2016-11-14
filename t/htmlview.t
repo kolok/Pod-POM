@@ -216,12 +216,8 @@ as well.
 <pre>    Here is a verbatim section.</pre>
 
 <p>This is some more regular text.</p>
-<p>Here is some <b>bold</b> text, some <i>italic</i> and something that looks 
-like an &lt;html&gt; tag.  This is some <code>$code($arg1)</code>.</p>
-<p>This <code>text contains embedded <b>bold</b> and <i>italic</i> tags</code>.  These can 
-be nested, allowing <b>bold and <i>bold &amp; italic</i> text</b>.  The module also
-supports the extended <b>syntax</b> and permits <i>nested tags &amp;
-other <b>cool</b> stuff</i></p>
+<p>Here is some <b>bold</b> text, some <i>italic</i> and something that looks <br> like an &lt;html&gt; tag.  This is some <code>$code($arg1)</code>.</p>
+<p>This <code>text contains embedded <b>bold</b> and <i>italic</i> tags</code>.  These can <br> be nested, allowing <b>bold and <i>bold &amp; italic</i> text</b>.  The module also<br> supports the extended <b>syntax</b> and permits <i>nested tags &amp;<br> other <b>cool</b> stuff</i></p>
 <h1>METHODS =&gt; OTHER STUFF</h1>
 
 <p>Here is a list of methods</p>
@@ -287,8 +283,7 @@ blah blah
 </p>
 
 <p>intermediate text</p>
-<more>
-HTML
+<more><br> HTML
 </more>
 some text
 <h1>TESTING URLs hyperlinking</h1>
@@ -298,9 +293,7 @@ some text
 <p>This is an email link: <a href="mailto:foo@bar.com">mailto:foo@bar.com</a></p>
 <h1>SEE ALSO</h1>
 
-<p>See also <i>Test Page 2</i>, the <i>Your::Module</i> and <i>Their::Module</i>
-manpages and the other interesting file <i>/usr/local/my/module/rocks</i>
-as well.</p>
+<p>See also <i>Test Page 2</i>, the <i>Your::Module</i> and <i>Their::Module</i><br> manpages and the other interesting file <i>/usr/local/my/module/rocks</i><br> as well.</p>
 </body>
 </html>
 
